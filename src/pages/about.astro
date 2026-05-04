@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/BlogPost.astro';
+---
+
+<Layout
+	title="关于"
+	description="关于这个博客和作者的简短介绍。"
+	pubDate={new Date('May 04 2026')}
+>
+	<p>
+		这里可以放你的个人简介、正在做的事情、写作主题，或者一份更轻量的自我说明。
+	</p>
+	<p>
+		Astro 很适合这种以内容为中心的个人站点：默认输出静态文件，构建快，部署到 GitHub Pages
+		也很顺手，后面要扩展 RSS、搜索、MDX 或组件化内容都不费劲。
+	</p>
+	<p>
+		等你准备好内容之后，这一页一般会比首页更像“自我介绍”，而首页更适合承接最近文章或重点项目。
+	</p>
+</Layout>
