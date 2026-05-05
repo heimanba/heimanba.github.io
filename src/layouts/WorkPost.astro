@@ -26,37 +26,57 @@ const {
 		<BaseHead title={title} description={description} />
 		<style>
 			main {
-				width: min(1080px, calc(100% - 2rem));
-				padding: 2.5rem 0 4rem;
+				width: min(1080px, calc(100% - (var(--site-gutter) * 2)));
+				padding: 2rem 0 4.5rem;
 			}
 			.hero {
 				display: grid;
 				grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
-				gap: 2rem;
-				padding-bottom: 2rem;
+				gap: 1.4rem;
+				padding-bottom: 2.25rem;
 				border-bottom: 1px solid rgb(var(--gray-light));
 			}
 			.hero h1,
 			.hero p {
 				margin: 0;
 			}
+			.hero h1 {
+				font-family: var(--font-body);
+				font-size: clamp(2.2rem, 4.8vw, 4.25rem);
+				font-weight: 700;
+				letter-spacing: -0.05em;
+				line-height: 1;
+				text-wrap: pretty;
+			}
 			.lead {
 				display: flex;
 				flex-direction: column;
 				gap: 1rem;
+				padding: clamp(1.2rem, 2vw, 1.55rem);
+				border: 1px solid var(--panel-border);
+				border-radius: 24px;
+				background:
+					radial-gradient(circle at top right, rgba(214, 164, 141, 0.18), transparent 40%),
+					rgba(var(--surface), 0.76);
+				box-shadow: var(--box-shadow);
 			}
 			.meta {
 				color: rgb(var(--gray));
+				font-size: 0.95rem;
 			}
 			.panel {
-				padding: 1.25rem;
-				border: 1px solid rgb(var(--gray-light));
-				border-radius: 8px;
-				background: rgba(255, 255, 255, 0.86);
+				padding: 1.3rem;
+				border: 1px solid var(--panel-border);
+				border-radius: 20px;
+				background: rgba(var(--surface-soft), 0.76);
+				box-shadow: 0 14px 34px rgba(50, 35, 20, 0.05);
+				align-self: start;
+				position: sticky;
+				top: 6.2rem;
 			}
 			.panel h2 {
-				margin-bottom: 0.75rem;
-				font-size: 1.1rem;
+				margin-bottom: 0.9rem;
+				font-size: 1.15rem;
 			}
 			.panel ul {
 				list-style: none;
@@ -74,16 +94,16 @@ const {
 			.tag {
 				padding: 0.15rem 0.55rem;
 				border-radius: 999px;
-				background: rgb(var(--gray-light));
+				background: rgba(var(--gray-light), 0.8);
 				font-size: 0.82rem;
 			}
 			.cover {
-				margin: 2rem 0;
+				margin: 2.5rem 0 2rem;
 			}
 			.cover img {
 				display: block;
 				width: 100%;
-				border-radius: 8px;
+				border-radius: 18px;
 				box-shadow: var(--box-shadow);
 			}
 			.prose {
@@ -92,6 +112,20 @@ const {
 			@media (max-width: 860px) {
 				.hero {
 					grid-template-columns: 1fr;
+				}
+				.panel {
+					position: static;
+				}
+			}
+			@media (max-width: 720px) {
+				main {
+					padding-top: 1.2rem;
+				}
+				.hero {
+					padding-bottom: 1.6rem;
+				}
+				.hero h1 {
+					font-size: clamp(1.9rem, 8.4vw, 3rem);
 				}
 			}
 		</style>

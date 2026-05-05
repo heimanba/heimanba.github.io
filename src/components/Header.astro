@@ -4,8 +4,8 @@ import HeaderLink from './HeaderLink.astro';
 ---
 
 <header>
-	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
+	<nav aria-label="主导航">
+		<h2 class="brand"><a href="/">{SITE_TITLE}</a></h2>
 		<div class="internal-links">
 			<HeaderLink href="/">首页</HeaderLink>
 			<HeaderLink href="/blog">文章</HeaderLink>
@@ -17,17 +17,26 @@ import HeaderLink from './HeaderLink.astro';
 <style>
 	header {
 		margin: 0;
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
+		padding: 0 var(--site-gutter);
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		background: rgba(255, 252, 247, 0.88);
+		backdrop-filter: blur(14px);
+		border-bottom: 1px solid rgba(var(--gray), 0.14);
+		box-shadow: 0 8px 24px rgba(50, 35, 20, 0.04);
 	}
-	h2 {
+	.brand {
 		margin: 0;
-		font-size: 1em;
+		font-family: var(--font-display);
+		font-size: 1.32rem;
+		letter-spacing: -0.03em;
+		line-height: 1;
 	}
-	h2 a,
-	h2 a.active {
+	.brand a,
+	.brand a.active {
 		text-decoration: none;
+		color: rgb(var(--black));
 	}
 	nav {
 		display: flex;
@@ -36,32 +45,50 @@ import HeaderLink from './HeaderLink.astro';
 		gap: 1rem;
 		max-width: 1100px;
 		margin: 0 auto;
+		padding: 0.8rem 0;
 	}
 	.internal-links {
 		display: flex;
-		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.9rem;
+		overflow-x: auto;
+		scrollbar-width: none;
+		white-space: nowrap;
+	}
+	.internal-links::-webkit-scrollbar {
+		display: none;
 	}
 	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
+		padding: 0.3rem 0;
+		color: rgb(var(--gray-dark));
+		font-size: 0.96rem;
 		text-decoration: none;
+		border-bottom: 2px solid transparent;
+		transition: color 180ms ease, border-color 180ms ease;
+	}
+	nav a:hover {
+		color: rgb(var(--black));
+		border-color: rgba(var(--gray), 0.32);
 	}
 	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
+		color: rgb(var(--black));
+		border-color: var(--accent);
 	}
 	@media (max-width: 720px) {
 		nav {
-			align-items: flex-start;
 			flex-direction: column;
-			padding: 0.5rem 0;
+			align-items: stretch;
+			gap: 0.55rem;
+			padding: 0.65rem 0;
+		}
+		.brand {
+			font-size: 1.22rem;
 		}
 		.internal-links {
-			gap: 0.25rem;
+			padding-bottom: 0.05rem;
 		}
 		nav a {
-			padding: 0.75em 0.5em;
+			padding: 0.28rem 0;
 		}
 	}
 </style>

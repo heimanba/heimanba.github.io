@@ -22,66 +22,187 @@ const works = (await getCollection('works'))
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
 			.home {
-				width: min(1100px, calc(100% - 2rem));
-				padding: 3rem 0 4rem;
+				width: min(var(--site-max), calc(100% - (var(--site-gutter) * 2)));
+				padding: 0.9rem 0 4.5rem;
 			}
 			.hero {
-				padding: 2rem 0 3rem;
+				display: grid;
+				grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.9fr);
+				gap: 1.1rem;
+				align-items: stretch;
+				padding: 0.15rem 0 2.8rem;
+			}
+			.hero-copy,
+			.hero-aside,
+			.card {
+				position: relative;
+				overflow: hidden;
+			}
+			.hero-copy,
+			.hero-aside {
+				padding: clamp(1.35rem, 2vw, 1.85rem);
+			}
+			.hero-copy::after,
+			.hero-aside::after,
+			.card::after {
+				content: "";
+				position: absolute;
+				inset: 0;
+				pointer-events: none;
+				background: linear-gradient(135deg, rgba(255, 255, 255, 0.28), transparent 52%);
 			}
 			.hero h1 {
 				max-width: 11ch;
-				margin-bottom: 1rem;
-				font-size: clamp(2.8rem, 7vw, 4.8rem);
-				line-height: 1.05;
+				margin-bottom: 0.9rem;
+				font-size: clamp(2.75rem, 5.6vw, 4.75rem);
+				line-height: 1.02;
+				text-wrap: pretty;
 			}
 			.hero p {
-				max-width: 42rem;
+				max-width: 39rem;
 				margin: 0;
-				font-size: 1.1rem;
+				font-size: 1.06rem;
 				color: rgb(var(--gray));
 			}
+			.hero-lead {
+				font-size: 1.08rem;
+			}
+			.hero-intro {
+				display: grid;
+				gap: 1rem;
+			}
+			.hero-meta {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 0.85rem;
+				margin-top: 1.35rem;
+				padding-top: 1.25rem;
+				border-top: 1px solid rgba(162, 74, 47, 0.12);
+			}
+			.hero-meta strong,
+			.hero-meta span {
+				display: block;
+			}
+			.hero-meta strong {
+				margin-bottom: 0.15rem;
+				font-size: 0.82rem;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				color: var(--accent-dark);
+			}
+			.hero-meta span {
+				font-size: 0.98rem;
+				line-height: 1.55;
+				color: rgb(var(--gray-dark));
+			}
+			.hero-aside {
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+				justify-content: center;
+				background:
+					radial-gradient(circle at top right, rgba(214, 164, 141, 0.28), transparent 38%),
+					rgba(var(--surface), 0.82);
+			}
+			.hero-aside p {
+				margin: 0;
+				font-size: 1.02rem;
+				color: rgb(var(--gray-dark));
+			}
+			.hero-links {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.65rem;
+			}
+			.hero-links a {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				min-width: 7.1rem;
+				min-height: 2.7rem;
+				padding: 0.68rem 0.95rem;
+				border-radius: 999px;
+				text-decoration: none;
+				font-size: 0.92rem;
+				font-weight: 700;
+				letter-spacing: 0.01em;
+				box-shadow: inset 0 0 0 1px transparent;
+			}
+			.hero-links .primary {
+				background: rgb(var(--black));
+				color: rgb(var(--surface));
+				box-shadow:
+					0 14px 28px rgba(24, 24, 27, 0.12),
+					inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+			}
+			.hero-links .primary:hover {
+				transform: translateY(-1px);
+				box-shadow: 0 10px 24px rgba(24, 24, 27, 0.16);
+			}
+			.hero-links .secondary {
+				border: 1px solid rgba(162, 74, 47, 0.22);
+				background: rgba(255, 252, 247, 0.96);
+				color: var(--accent-dark);
+				box-shadow:
+					0 10px 24px rgba(80, 53, 28, 0.06),
+					inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+			}
+			.hero-links .secondary:hover {
+				transform: translateY(-1px);
+				border-color: rgba(162, 74, 47, 0.34);
+				background: rgba(255, 255, 255, 1);
+			}
 			.section {
-				padding: 2rem 0;
-				border-top: 1px solid rgb(var(--gray-light));
+				padding: 2.1rem 0 0;
+				margin-top: 0.6rem;
 			}
 			.section-head {
 				display: flex;
 				align-items: baseline;
 				justify-content: space-between;
 				gap: 1rem;
-				margin-bottom: 1.25rem;
+				margin-bottom: 1.2rem;
 			}
 			.section-head h2,
 			.section-head p {
 				margin: 0;
 			}
 			.section-head p {
+				max-width: 32rem;
 				color: rgb(var(--gray));
 				font-size: 0.98rem;
 			}
 			.grid {
 				display: grid;
 				grid-template-columns: repeat(2, minmax(0, 1fr));
-				gap: 1rem;
+				gap: 1.1rem;
 			}
 			.card {
 				display: flex;
 				flex-direction: column;
-				gap: 0.75rem;
-				padding: 1.25rem;
-				border: 1px solid rgb(var(--gray-light));
-				border-radius: 8px;
-				background: rgba(255, 255, 255, 0.86);
+				gap: 0.85rem;
+				padding: 1.35rem;
 				text-decoration: none;
 				color: inherit;
+				background:
+					linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 252, 247, 0.88)),
+					rgba(var(--surface), 0.86);
 			}
 			.card h3,
 			.card p {
 				margin: 0;
 			}
+			.card p {
+				color: rgb(var(--gray));
+			}
+			.card h3 {
+				padding-right: 1.9rem;
+				font-size: clamp(1.55rem, 2.2vw, 2.05rem);
+				line-height: 1.12;
+			}
 			.meta {
 				font-size: 0.95rem;
-				color: rgb(var(--gray));
+				color: rgba(var(--gray-dark), 0.78);
 			}
 			.tags {
 				display: flex;
@@ -89,40 +210,82 @@ const works = (await getCollection('works'))
 				gap: 0.5rem;
 			}
 			.tag {
-				padding: 0.15rem 0.55rem;
+				padding: 0.2rem 0.6rem;
 				border-radius: 999px;
-				background: rgb(var(--gray-light));
+				background: rgba(162, 74, 47, 0.08);
 				font-size: 0.82rem;
 				color: rgb(var(--gray-dark));
 			}
-			.now-list {
-				display: grid;
-				grid-template-columns: repeat(3, minmax(0, 1fr));
-				gap: 1rem;
-			}
-			.now-item {
-				padding: 1rem 0;
-			}
-			.now-item h3,
-			.now-item p {
-				margin: 0;
-			}
-			.now-item p {
-				margin-top: 0.5rem;
-				color: rgb(var(--gray));
-				font-size: 0.98rem;
+
+			.card::before {
+				content: "↗";
+				position: absolute;
+				top: 1.2rem;
+				right: 1.25rem;
+				font-size: 1rem;
+				color: rgba(162, 74, 47, 0.58);
+				transition: transform var(--transition-soft), color var(--transition-soft);
 			}
 			.card:hover {
-				border-color: var(--accent);
-				box-shadow: 0 8px 24px rgba(var(--gray), 12%);
+				transform: translateY(-2px);
+				box-shadow: var(--box-shadow-strong);
+				border-color: rgba(162, 74, 47, 0.28);
+				background:
+					linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 252, 247, 0.96)),
+					rgba(var(--surface), 0.94);
+			}
+			.card:hover::before {
+				transform: translate(2px, -2px);
+				color: var(--accent-dark);
+			}
+			.card.featured-work {
+				background:
+					linear-gradient(180deg, rgba(252, 245, 237, 0.95), rgba(255, 252, 247, 0.82)),
+					rgba(var(--surface), 0.82);
+			}
+			@media (max-width: 900px) {
+				.hero {
+					grid-template-columns: 1fr;
+				}
 			}
 			@media (max-width: 820px) {
-				.grid,
-				.now-list {
+				.grid {
 					grid-template-columns: 1fr;
 				}
 				.section-head {
 					flex-direction: column;
+				}
+			}
+			@media (max-width: 720px) {
+				.home {
+					padding-top: 0.45rem;
+				}
+				.hero {
+					padding-bottom: 2.2rem;
+				}
+				.hero h1 {
+					max-width: 9ch;
+					font-size: clamp(2.15rem, 9.4vw, 3.4rem);
+					line-height: 1.03;
+				}
+				.hero-intro {
+					gap: 0.9rem;
+				}
+				.hero-links {
+					flex-direction: column;
+				}
+				.hero-links a {
+					width: 100%;
+				}
+				.hero-meta {
+					grid-template-columns: 1fr;
+					gap: 0.95rem;
+				}
+				.hero-aside {
+					gap: 0.9rem;
+				}
+				.section {
+					padding-top: 2rem;
 				}
 			}
 		</style>
@@ -130,22 +293,15 @@ const works = (await getCollection('works'))
 	<body>
 		<Header />
 		<main class="home">
-			<section class="hero">
-				<h1>写文章，也把做过的东西摆出来。</h1>
-				<p>
-					这里是我的个人站。文章用来记录思考、技术和项目过程，作品用来展示已经做出来的产品、实验和长期项目。
-				</p>
-			</section>
-
 			<section class="section">
 				<div class="section-head">
 					<h2>最新文章</h2>
-					<p>按时间更新，适合持续阅读。</p>
+					<p>持续更新，优先写那些值得反复引用的内容。</p>
 				</div>
 				<div class="grid">
 					{
 						posts.map((post) => (
-							<a class="card" href={`/blog/${post.id}/`}>
+							<a class="card surface-panel" href={`/blog/${post.id}/`}>
 								<div class="meta">
 									<FormattedDate date={post.data.pubDate} />
 								</div>
@@ -160,12 +316,12 @@ const works = (await getCollection('works'))
 			<section class="section">
 				<div class="section-head">
 					<h2>精选作品</h2>
-					<p>更偏结果、实现和能力证明。</p>
+					<p>不只讲思路，也展示结果、实现和交付能力。</p>
 				</div>
 				<div class="grid">
 					{
 						works.map((work) => (
-							<a class="card" href={`/works/${work.id}/`}>
+							<a class="card featured-work surface-panel" href={`/works/${work.id}/`}>
 								<div class="meta">
 									<FormattedDate date={work.data.pubDate} />
 									{work.data.role && ` · ${work.data.role}`}
@@ -183,26 +339,6 @@ const works = (await getCollection('works'))
 				</div>
 			</section>
 
-			<section class="section">
-				<div class="section-head">
-					<h2>现在在做</h2>
-					<p>让首页不只是归档页，也保留一点进行中的状态。</p>
-				</div>
-				<div class="now-list">
-					<div class="now-item">
-						<h3>写长期内容</h3>
-						<p>把零散想法收束成文章，积累成能反复引用的输出。</p>
-					</div>
-					<div class="now-item">
-						<h3>做小而完整的作品</h3>
-						<p>不只展示想法，更展示交付结果、链接和复盘。</p>
-					</div>
-					<div class="now-item">
-						<h3>维护这个站</h3>
-						<p>让它同时承担目录、档案和个人入口三种角色。</p>
-					</div>
-				</div>
-			</section>
 		</main>
 		<Footer />
 	</body>

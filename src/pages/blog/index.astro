@@ -10,78 +10,156 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+const [featuredPost, ...restPosts] = posts;
 ---
 
 <!doctype html>
 <html lang="zh-CN">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={`文章 | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
 		<style>
 			main {
-				width: 960px;
+				width: min(var(--site-max), calc(100% - (var(--site-gutter) * 2)));
+				padding: 2rem 0 4.5rem;
 			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
+			.hero {
+				display: grid;
+				grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.9fr);
+				gap: 1rem;
+				align-items: stretch;
+				margin-bottom: 2rem;
+			}
+			.hero-copy,
+			.featured-card,
+			.post-card {
+				padding: clamp(1.3rem, 2vw, 1.55rem);
+			}
+			.hero-copy p,
+			.featured-card p,
+			.post-card p {
 				margin: 0;
-				padding: 0;
 			}
-			ul li {
-				width: calc(50% - 1rem);
+			.hero-copy {
+				background:
+					radial-gradient(circle at top right, rgba(214, 164, 141, 0.18), transparent 36%),
+					rgba(var(--surface), 0.74);
 			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
+			.hero-copy p {
+				max-width: 34rem;
 				color: rgb(var(--gray));
 			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
+			.hero-stats {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 0.8rem;
+				margin-top: 1.5rem;
+				padding-top: 1.15rem;
+				border-top: 1px solid rgba(162, 74, 47, 0.12);
 			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
+			.hero-stats strong,
+			.hero-stats span {
+				display: block;
+			}
+			.hero-stats strong {
+				color: var(--accent-dark);
+				font-size: 0.8rem;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+			}
+			.hero-stats span {
+				margin-top: 0.2rem;
+				font-size: 0.96rem;
+				color: rgb(var(--gray-dark));
+				line-height: 1.55;
+			}
+			.featured-card {
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+				text-decoration: none;
+				color: inherit;
+				background:
+					linear-gradient(180deg, rgba(252, 245, 237, 0.94), rgba(255, 252, 247, 0.8)),
+					rgba(var(--surface), 0.74);
+			}
+			.featured-card,
+			.post-card {
+				position: relative;
+				overflow: hidden;
+			}
+			.featured-card img {
+				width: 100%;
+				border-radius: 18px;
+			}
+			.featured-card h2 {
+				margin: 0;
+				font-size: clamp(1.9rem, 3vw, 2.6rem);
+			}
+			.featured-card .meta,
+			.post-card .meta {
+				font-size: 0.94rem;
+				color: rgb(var(--gray));
+			}
+			.featured-card .description,
+			.post-card .description {
+				color: rgb(var(--gray-dark));
+				line-height: 1.7;
+			}
+			.grid {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 1rem;
+				padding-top: 2rem;
+				border-top: 1px solid rgba(162, 74, 47, 0.12);
+			}
+			.post-card {
+				display: flex;
+				flex-direction: column;
+				gap: 0.8rem;
+				text-decoration: none;
+				color: inherit;
+				background: rgba(255, 252, 247, 0.74);
+			}
+			.post-card h3 {
+				margin: 0;
+				font-size: clamp(1.4rem, 2vw, 1.85rem);
+				padding-right: 1.8rem;
+			}
+			.featured-card::before,
+			.post-card::before {
+				content: "↗";
+				position: absolute;
+				top: 1.15rem;
+				right: 1.2rem;
+				font-size: 1rem;
+				color: rgba(162, 74, 47, 0.58);
+				transition: transform var(--transition-soft), color var(--transition-soft);
+			}
+			.post-card:hover,
+			.featured-card:hover {
+				transform: translateY(-2px);
+				box-shadow: var(--box-shadow-strong);
+				border-color: var(--panel-border-strong);
+			}
+			.post-card:hover::before,
+			.featured-card:hover::before {
+				transform: translate(2px, -2px);
+				color: var(--accent-dark);
+			}
+			@media (max-width: 900px) {
+				.hero,
+				.grid,
+				.hero-stats {
+					grid-template-columns: 1fr;
+				}
 			}
 			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
+				main {
+					padding-top: 1.2rem;
 				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
+				.hero {
+					margin-bottom: 1.5rem;
 				}
 			}
 		</style>
@@ -89,24 +167,54 @@ const posts = (await getCollection('blog')).sort(
 	<body>
 		<Header />
 		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
+			<section class="hero">
+				<div class="hero-copy surface-panel">
+					<div class="eyebrow">Archive</div>
+					<h1>文章</h1>
+					<p>这里优先放那些以后还想反复引用的内容。不是即时碎片，而是把判断、方法和项目过程整理成可复用的文字。</p>
+					<div class="hero-stats">
+						<div>
+							<strong>内容取向</strong>
+							<span>长期、可引用、可复盘。</span>
+						</div>
+						<div>
+							<strong>关注主题</strong>
+							<span>技术、产品、AI 与制作过程。</span>
+						</div>
+						<div>
+							<strong>更新方式</strong>
+							<span>慢一点，但尽量写完整。</span>
+						</div>
+					</div>
+				</div>
+				{
+					featuredPost && (
+						<a class="featured-card surface-panel" href={`/blog/${featuredPost.id}/`}>
+							{featuredPost.data.heroImage && (
+								<Image width={900} height={480} src={featuredPost.data.heroImage} alt="" />
+							)}
+							<div class="meta">
+								<FormattedDate date={featuredPost.data.pubDate} />
+							</div>
+							<h2>{featuredPost.data.title}</h2>
+							<p class="description">{featuredPost.data.description}</p>
+						</a>
+					)
+				}
+			</section>
+
+			<section class="grid">
+				{
+					restPosts.map((post) => (
+						<a class="post-card surface-panel" href={`/blog/${post.id}/`}>
+							<div class="meta">
+								<FormattedDate date={post.data.pubDate} />
+							</div>
+							<h3>{post.data.title}</h3>
+							<p class="description">{post.data.description}</p>
+						</a>
+					))
+				}
 			</section>
 		</main>
 		<Footer />

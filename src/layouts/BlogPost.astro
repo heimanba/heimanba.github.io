@@ -16,41 +16,72 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 		<BaseHead title={title} description={description} />
 		<style>
 			main {
-				width: calc(100% - 2em);
+				width: min(1120px, calc(100% - (var(--site-gutter) * 2)));
 				max-width: 100%;
 				margin: 0;
 			}
 			.hero-image {
 				width: 100%;
+				margin-bottom: 1.5rem;
 			}
 			.hero-image img {
 				display: block;
 				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
+				border-radius: 24px;
+				box-shadow: var(--box-shadow-strong);
 			}
 			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
+				width: min(760px, calc(100% - 0.5rem));
 				margin: auto;
-				padding: 1em;
+				padding: 0.5rem 0 0;
 				color: rgb(var(--gray-dark));
 			}
 			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
+				margin-bottom: 2.7rem;
+				padding: clamp(1.25rem, 2vw, 1.7rem);
 				line-height: 1;
+				background:
+					radial-gradient(circle at top right, rgba(214, 164, 141, 0.2), transparent 38%),
+					rgba(var(--surface), 0.74);
 			}
 			.title h1 {
-				margin: 0 0 0.5em 0;
+				max-width: 10ch;
+				margin: 0;
+				font-family: var(--font-body);
+				font-size: clamp(2.35rem, 5vw, 4.4rem);
+				font-weight: 700;
+				letter-spacing: -0.055em;
+				line-height: 1;
+				text-wrap: pretty;
 			}
 			.date {
-				margin-bottom: 0.5em;
+				margin-bottom: 1rem;
 				color: rgb(var(--gray));
+				font-size: 0.95rem;
 			}
 			.last-updated-on {
+				margin-top: 0.2rem;
 				font-style: italic;
+			}
+			.description {
+				max-width: 38rem;
+				margin-top: 1.1rem;
+				color: rgb(var(--gray));
+				font-size: 1.04rem;
+				line-height: 1.7;
+			}
+			.title hr {
+				margin: 1.6rem 0 0;
+			}
+			@media (max-width: 720px) {
+				.title {
+					margin-bottom: 2rem;
+					padding: 1.15rem;
+				}
+				.title h1 {
+					max-width: 9ch;
+					font-size: clamp(1.95rem, 8.8vw, 3rem);
+				}
 			}
 		</style>
 	</head>
@@ -63,7 +94,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
 				</div>
 				<div class="prose">
-					<div class="title">
+					<div class="title surface-panel">
 						<div class="date">
 							<FormattedDate date={pubDate} />
 							{
@@ -75,6 +106,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 							}
 						</div>
 						<h1>{title}</h1>
+						<p class="description">{description}</p>
 						<hr />
 					</div>
 					<slot />

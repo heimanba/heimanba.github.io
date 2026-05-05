@@ -4,17 +4,63 @@ import Layout from '../layouts/BlogPost.astro';
 
 <Layout
 	title="关于"
-	description="关于这个博客和作者的简短介绍。"
+	description="我在写什么、做什么，以及为什么要把这些公开放到网上。"
 	pubDate={new Date('May 04 2026')}
 >
+	<div class="eyebrow">About this site</div>
 	<p>
-		这里可以放你的个人简介、正在做的事情、写作主题，或者一份更轻量的自我说明。
+		这个站点主要做两件事：写文章，和展示作品。前者用来整理我对技术、产品、AI 和具体项目的判断，后者用来放那些已经真正做出来、能被访问、能被解释、也能被继续迭代的东西。
 	</p>
 	<p>
-		Astro 很适合这种以内容为中心的个人站点：默认输出静态文件，构建快，部署到 GitHub Pages
-		也很顺手，后面要扩展 RSS、搜索、MDX 或组件化内容都不费劲。
+		我不太想把个人主页做成一张名片，或者一个只剩链接的导航页。比起“我是谁”，我更希望这里先回答另外两个问题：我最近在认真想什么，我到底把什么东西做成了。
 	</p>
 	<p>
-		等你准备好内容之后，这一页一般会比首页更像“自我介绍”，而首页更适合承接最近文章或重点项目。
+		如果你是因为某篇文章或者某个项目来到这里，希望这个站能让你快速判断我长期关注的方向，也能顺手看到更多上下文，而不是只停在一次性的输出上。
 	</p>
+	<div class="surface-panel about-grid">
+		<section>
+			<h2>长期关注</h2>
+			<p>技术实现、产品判断、AI 工作流，以及把想法真正做成可运行作品的过程。</p>
+		</section>
+		<section>
+			<h2>写作方式</h2>
+			<p>优先写那些以后还值得回头引用的内容，而不是只回应当下的热度。</p>
+		</section>
+		<section>
+			<h2>做事标准</h2>
+			<p>尽量把每个项目做到可访问、可解释、可复盘，而不是停在 demo 或截图层面。</p>
+		</section>
+		<section>
+			<h2>这个站的角色</h2>
+			<p>它既是公开工作台，也是个人入口和长期档案，方便把上下文完整地留在网上。</p>
+		</section>
+	</div>
 </Layout>
+
+<style>
+	.about-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
+		margin-top: 2rem;
+		padding: 1.35rem;
+	}
+	.about-grid section {
+		padding: 0.25rem;
+	}
+	.about-grid h2 {
+		margin-bottom: 0.55rem;
+		font-size: 1.35rem;
+	}
+	.about-grid p {
+		margin: 0;
+		font-size: 1rem;
+		line-height: 1.7;
+		color: rgb(var(--gray));
+	}
+	@media (max-width: 720px) {
+		.about-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
