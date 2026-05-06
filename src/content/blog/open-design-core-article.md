@@ -12,7 +12,7 @@ pubDate: 'May 05 2026'
 
 Anthropic 在 2026 年 4 月 17 日发布 Claude Design：它可以从一句需求开始生成 polished visual work，并支持通过对话、inline comments、direct edits、custom sliders 继续细调；也可以接入团队 design system，导出到 Canva、PDF、PPTX、standalone HTML，甚至把设计打包 handoff 给 Claude Code。
 
-这套产品形态非常清楚：LLM 不再只是写方案，而是直接参与设计产物的生成、预览、修改和交付。
+说白了，Claude Design 做的不是工具升级，而是角色转变：LLM 不再只是写方案，而是直接参与设计产物的生成、预览、修改和交付。
 
 Open Design 站在这个背景下出现。它不是 Anthropic 官方产品的一部分，而是一个开源项目：用本地 daemon、可替换 code agent、Skill 和 Design System，把 Claude Design 式工作流拆成可以自己运行、自己扩展的工程实现。
 
@@ -30,7 +30,7 @@ Open Design 采用的路线不是“再训练一个更懂设计的模型”，�
 
 ## 运行链路
 
-作为 Claude Design 的开源实现，Open Design 的核心链路可以简化成这样：
+Open Design 的核心链路画出来大概是这样的：
 
 ```text
 用户输入设计需求
@@ -76,7 +76,7 @@ Open Design 在 `apps/daemon/src/agents.ts` 里把每个 agent 定义成 adapter
 
 这样一来，支持一个新 agent 不需要重写产品主流程，而是补一条 adapter 规则。向下，每个 CLI 可以保留自己的运行方式；向上，Web UI 只看到统一的 agent 列表、统一的 run lifecycle 和统一的流式事件。
 
-以 Qoder CLI 为例（[PR #626](https://github.com/nexu-io/open-design/pull/626)），我按照现有 adapter 模式给 Open Design 接入了 Qoder。整个过程只需要定义几件事：二进制名 `qodercli`，版本探测走 `qodercli --version`，prompt 通过 stdin 传入（`promptViaStdin: true`），输出流按 `qoder-stream-json` 格式逐行解析 JSONL（text_delta、thinking_start、usage 等事件），skill 和 design-system 目录通过 `--add-dir` 注入，图片附件通过 `--attachment` 传递绝对路径，无头运行使用 `--permission-mode bypass_permissions` 跳过审批提示。整个 adapter 加上流解析器和测试大约 230 行代码，不需要动产品主流程的任何一行。作为这个 PR 的作者，我的体感是 adapter 架构确实兑现了它的承诺：接入一个新 agent 只是补一条规则，不是开一个新分支。
+以 Qoder CLI 为例（[PR #626](https://github.com/nexu-io/open-design/pull/626)），我按照现有 adapter 模式给 Open Design 接入了 Qoder。整个过程只需要定义几件事：二进制名 `qodercli`，版本探测走 `qodercli --version`，prompt 通过 stdin 传入（`promptViaStdin: true`），输出流按 `qoder-stream-json` 格式逐行解析 JSONL（text_delta、thinking_start、usage 等事件），skill 和 design-system 目录通过 `--add-dir` 注入，图片附件通过 `--attachment` 传递绝对路径，无头运行使用 `--permission-mode bypass_permissions` 跳过审批提示。整个 adapter 加上流解析器和测试大约 230 行代码，不需要动产品主流程的任何一行。作为这个 PR 的作者，我的体感是 adapter 架构确实做到了它声称的事：接入一个新 agent 只是补一条规则，不是开一个新分支。
 
 一次本地运行大致会经历这些步骤：
 
@@ -92,7 +92,7 @@ POST /api/runs
   └─ 把 stdout / stderr / tool events 转成统一 SSE
 ```
 
-用户看到的是一个稳定体验：无论底层跑的是 Claude Code、Codex、Cursor Agent 还是 Qoder，聊天面板都会流式更新，Todo 卡片能实时变化，最终 `<artifact>` 会进入预览 iframe。
+不管底层跑的是 Claude Code、Codex、Cursor Agent 还是 Qoder，用户看到的体验是一致的：聊天面板流式更新，Todo 卡片实时变化，最终 `<artifact>` 进入预览 iframe。
 
 ## BYOK：Key 留在用户自己的边界里
 
@@ -104,11 +104,11 @@ Open Design 的 BYOK 不是单一入口，而是三条互补路径。
 
 第三条是 Media BYOK。图像、视频、音频生成 provider 的 key 保存在本机 daemon 的 `.od/media-config.json`，也可以用环境变量覆盖。Open Design 只做本地配置和调用编排，不做中心化 key 托管。
 
-这三条路径共同服务一个目标：设计工作流可以开放、可替换、可本地化，而不是被锁在某一家模型或某一个云端账号体系里。
+三条路径指向同一个目的：设计工作流可以开放、可替换、可本地化，而不是被锁在某一家模型或云端账号体系里。
 
 ## 先提问，再生成：把模糊需求变成设计 brief
 
-Open Design 很重要的一点是：新设计任务第一轮不急着生成代码，而是要求 agent 输出结构化的 `<question-form>`。
+Open Design 比较不一样的一点是：新设计任务第一轮不急着生成代码，而是要求 agent 先输出结构化的 `<question-form>`。
 
 这部分设计和审美方法的重要参考是 [huashu-design](https://github.com/alchaincyf/huashu-design)。huashu-design 是一个面向 Claude Code 等 agent 的 HTML-native design skill，强调 Junior Designer Workflow：不要追求一次性神来之笔，而是先批量问清问题、尽早展示可见雏形，再通过品牌资产、视觉方向、Tweaks 和评审逐步收敛。
 
@@ -123,7 +123,7 @@ Open Design 很重要的一点是：新设计任务第一轮不急着生成代�
 - 规模：几页 slide、几个页面、几屏 mobile；
 - 约束：字体、素材、禁忌、deadline、必须包含的信息。
 
-这一步解决的是生成式设计里最常见的返工来源：用户第一句话通常不完整，而模型如果太早开始画图，就会把缺失信息用自己的默认审美补上。Open Design 把这些不确定性提前压缩成 30 秒的表单选择。
+这一步其实在解决一个常见的问题：用户第一句话通常不完整，模型如果太早开始画图，就会拿自己的默认审美去填那些缺掉的信息。Open Design 把这些不确定性提前压缩成 30 秒的表单选择。
 
 ## Direction Picker：不让模型自由发明审美
 
@@ -137,7 +137,7 @@ Open Design 很重要的一点是：新设计任务第一轮不急着生成代�
 
 如果用户选择“我有品牌规范”或“匹配参考网站”，agent 则会先抽取真实品牌资产，写出 `brand-spec.md`，再开始生成。
 
-所以 Open Design 对审美的处理方式是：
+所以 Open Design 处理审美的思路是：
 
 ```text
 没有品牌
@@ -181,7 +181,7 @@ craft/
   规定通用专业性：排版、用色、动效、可访问性、反 AI 套路
 ```
 
-这让 Open Design 的提示词栈不再是一段不可维护的长文本，而是一组可以版本化、可以复用、可以被 review 的项目文件。
+这样一来，Open Design 的提示词栈就不再是一坨没法维护的长文本，而是变成了一组可以版本化、可以复用、可以被 review 的项目文件。
 
 ## TodoWrite：让生成过程变成可见账本
 
@@ -193,7 +193,7 @@ craft/
 
 Todo 状态会从 `pending` 到 `in_progress` 再到 `completed`。如果生成中断，Open Design 还能根据未完成 Todo 构造继续执行的 follow-up prompt，让下一轮不要重做已完成工作，只继续剩余任务。
 
-这就是 Open Design 不只是“一次生成”的基础：它保存 conversation、run events、Todo 状态和真实项目文件，支持恢复、续跑和多轮 refinement。
+这也是 Open Design 能走出"一次生成"的关键：它保存 conversation、run events、Todo 状态和真实项目文件，支持恢复、续跑和多轮 refinement。
 
 ## Artifact Preview：产物不是聊天文本，而是真文件
 
@@ -203,7 +203,7 @@ Open Design 要求最终输出是单个 `<artifact>` block。前端解析后会�
 
 这件事很关键。用户看到的不是一段贴在聊天里的 HTML，而是一个可以打开、预览、导出、继续评论修改的作品。后续 agent 也不是凭记忆修改聊天文本，而是在真实项目目录里读写文件。
 
-这使 Open Design 更接近设计工作台，而不是聊天机器人。
+这让 Open Design 更像一个设计工作台，而不是聊天机器人。
 
 ## Tweaks、Picker 和 Pods：从“描述修改”到“指向修改”
 
@@ -262,7 +262,7 @@ Pods 则处理区域级反馈。用户在画布上圈选一组元素，Open Desi
 
 ## 质量门禁：生成痕迹、Checklist 和五维评审
 
-Open Design 没有把设计质量完全交给模型自觉。它把质量约束拆成几层。
+Open Design 没把设计质量全交给模型自己把关。它把质量约束拆成几层。
 
 这套质量观有两条来源。设计评审和审美收敛可以追溯到 huashu-design，它强调 Core Asset Protocol 和 5-dimension expert critique，用品牌资产、设计哲学、视觉层级、执行细节和可交付性去约束 agent 输出。具体到 `anti-ai-slop`，它不是来自某个 `skills/*` 目录下的 Skill，而是 `craft/anti-ai-slop.md` 这条全局 craft rule；文件头注明它改编自 [refero_skill](https://github.com/referodesign/refero_skill)（MIT），再被 Open Design 收紧到自己的 lint surface。
 
@@ -276,7 +276,7 @@ Open Design 没有把设计质量完全交给模型自觉。它把质量约束�
 
 ## 开放实现带来的变化
 
-如果说 Claude Design 定义的是“和 Claude 一起做视觉作品”的产品形态，那么 Open Design 展示的是这套形态如何被拆成一个开放工程。
+Claude Design 定义了"和 Claude 一起做视觉作品"这件事该怎么做，Open Design 则把这套做法拆开，变成一个可以自行搭建的开放工程。
 
 Open Design 不只是“支持很多模型”或“能生成很多页面”。从项目结构看，它呈现的是一种开放式 Claude Design 实现路径：
 
@@ -292,15 +292,15 @@ Open Design 不只是“支持很多模型”或“能生成很多页面”。�
 
 ## 最终定位
 
-从产品形态看，Open Design 把 Claude Design 的范式拆开重组：上层是开放的设计工作台，下层不是单一模型，而是用户机器上已有的 code agent。它没有试图取代 Claude Code、Codex、Cursor Agent、OpenCode 这些工具，而是把它们接进同一个本地设计工作台。
+拆开来看，Open Design 把 Claude Design 的架构做了重新组合：上层是开放的设计工作台，下层不是单一模型，而是用户机器上已有的 code agent。它没有试图取代 Claude Code、Codex、Cursor Agent、OpenCode 这些工具，而是把它们接进同一个本地设计工作台。
 
 向上，它给用户一个统一的创作界面：选择 skill、选择设计系统、回答问题、看 Todo、预览 artifact、标注反馈。
 
 向下，它给每个 agent 保留自己的运行方式：自己的登录态、自己的 CLI 参数、自己的工具调用协议、自己的输出格式。
 
-中间的 daemon、Skill、DESIGN.md、question form、TodoWrite、Preview Comment 和 critique 协议，则共同把“AI 生成一个页面”推进成“AI 参与一个可持续的设计工作流”。
+中间的 daemon、Skill、DESIGN.md、question form、TodoWrite、Preview Comment 和 critique 协议，把这些环节串在一起，把"AI 生成一个页面"变成了"AI 参与一个可持续的设计工作流"。
 
-因此，可以把 Open Design 概括为：Claude Design 的开源实现，一个开放、本地优先、可扩展的 AI 设计工作台。它不是把设计交给一个黑盒模型，而是把用户已有的 agent、品牌资产、项目文件和设计反馈组织成一条可以持续工作的创作流水线。
+总的来说，Open Design 就是：Claude Design 的开源实现，一个开放、本地优先、可扩展的 AI 设计工作台。它不是把设计交给一个黑盒模型，而是把用户已有的 agent、品牌资产、项目文件和设计反馈组织成一条可以持续工作的创作流水线。
 
 ## 附录：关键代码索引
 
