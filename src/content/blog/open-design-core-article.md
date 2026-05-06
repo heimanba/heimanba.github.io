@@ -4,7 +4,7 @@ description: 'Open Design 可以理解为 Claude Design by Anthropic Labs 的开
 pubDate: 'May 05 2026'
 ---
 
-> Open Design 可以理解为 [Claude Design by Anthropic Labs](https://www.anthropic.com/news/claude-design-anthropic-labs) 的开源实现和开放替代。Claude Design 把 Claude 变成一个可以协作生成 designs、prototypes、slides、one-pagers 的视觉创作产品；Open Design 则沿着这条 artifact-first 工作流继续展开，把执行层从单一 Claude 产品扩展为用户本机已有的 Claude Code、Codex、Cursor Agent、Gemini CLI、OpenCode、Qoder 等 code agent。
+> [Open Design](https://github.com/nexu-io/open-design) 可以理解为 [Claude Design by Anthropic Labs](https://www.anthropic.com/news/claude-design-anthropic-labs) 的开源实现和开放替代。Claude Design 把 Claude 变成一个可以协作生成 designs、prototypes、slides、one-pagers 的视觉创作产品；Open Design 则沿着这条 artifact-first 工作流继续展开，把执行层从单一 Claude 产品扩展为用户本机已有的 Claude Code、Codex、Cursor Agent、Gemini CLI、OpenCode、Qoder 等 code agent。
 
 <video width="100%" height="560" controls="controls" src="//cloud.video.taobao.com/vod/osl1mfR5p3GmyhGk5amToQyVJkJdTDUaV5KQTab-2lI.mp4"></video>
 
