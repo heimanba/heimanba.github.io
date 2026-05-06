@@ -53,7 +53,7 @@ Sandboxed Preview
 
 这条链路里最重要的角色是本地 daemon。浏览器不能直接启动本机 CLI，也不应该直接访问磁盘；daemon 则可以站在浏览器和本地系统之间，成为安全边界和适配层。
 
-Open Design 自己不重写 Claude Code 或 Codex 的 agent loop。它尊重这些工具已经具备的能力：读文件、写文件、跑命令、理解项目、使用用户自己的登录态和 API key。Open Design 做的是把这些能力统一包装成“设计执行层”，再在上层复现 Claude Design 的协作式 artifact 工作流。
+Open Design 不会自己去重写 Claude Code 或 Codex 的 agent loop。这些工具本来就会读文件、写文件、跑命令、理解项目、管理用户自己的登录态和 API key，Open Design 直接用就行了。Open Design 做的是把这些能力串起来，搭一个"设计执行层"，再复现 Claude Design 那种协作式 artifact 工作流。
 
 ![入口界面](https://img.alicdn.com/imgextra/i4/O1CN01uDnZfs1FTYQ1MS0Bj_!!6000000000488-0-tps-1024-548.jpg)
 
@@ -154,7 +154,7 @@ Open Design 比较不一样的一点是：新设计任务第一轮不急着生�
 
 ## Skill 和 DESIGN.md：把提示词变成可维护的项目资产
 
-Open Design 内置多类 Skill：web prototype、mobile app、dashboard、deck、social carousel、magazine poster、email marketing、finance report、PM spec 等。每个 Skill 都是一个文件夹，至少包含 `SKILL.md`，通常还包含 `assets/template.html`、`references/layouts.md`、`references/checklist.md` 等辅助资料。
+Open Design 内置多类 Skill：[web prototype](https://github.com/nexu-io/open-design/tree/main/skills/web-prototype)、[mobile app](https://github.com/nexu-io/open-design/tree/main/skills/mobile-app)、[dashboard](https://github.com/nexu-io/open-design/tree/main/skills/dashboard)、[deck](https://github.com/nexu-io/open-design/tree/main/skills/guizang-ppt)、[social carousel](https://github.com/nexu-io/open-design/tree/main/skills/social-carousel)、[magazine poster](https://github.com/nexu-io/open-design/tree/main/skills/magazine-poster)、[email marketing](https://github.com/nexu-io/open-design/tree/main/skills/email-marketing)、[finance report](https://github.com/nexu-io/open-design/tree/main/skills/finance-report)、[PM spec](https://github.com/nexu-io/open-design/tree/main/skills/pm-spec) 等。每个 Skill 都是一个文件夹，至少包含 `SKILL.md`，通常还包含 `assets/template.html`、`references/layouts.md`、`references/checklist.md` 等辅助资料。
 
 Skill 这一层不是 Open Design 自己发明的新格式，而是采用了 [Claude Code Skills](https://docs.anthropic.com/en/docs/claude-code/skills) 的 `SKILL.md` 约定，再叠加 Open Design 自己的 `od:` frontmatter。这样做的好处是：一个 skill 仍然是普通文件夹，可以被复制、fork、版本化，也可以被 daemon 扫描后直接放进 picker。
 
@@ -272,7 +272,7 @@ Open Design 没把设计质量全交给模型自己把关。它把质量约束�
 
 第三层是五维 critique：Philosophy、Hierarchy、Execution、Specificity、Restraint。它要求 agent 在交付前主动检查视觉立场、层级、执行细节、内容具体性和克制程度。
 
-更进一步，项目里还有 Design Jury 协议，把 Designer、Critic、Brand、A11y、Copy 等角色变成可流式记录、可评分、可收敛的评审过程。它体现了 Open Design 的一个重要方向：设计反馈不再只是“再高级一点”，而是可以被协议化、记录、回放和修正。
+更进一步，项目里还有 Design Jury 协议，把 Designer、Critic、Brand、A11y、Copy 等角色变成可流式记录、可评分、可收敛的评审过程。这其实是 Open Design 的一个关键方向：设计反馈不再只是"再高级一点"，而是可以被协议化、记录、回放和修正。
 
 ## 开放实现带来的变化
 
@@ -288,7 +288,7 @@ Open Design 不只是“支持很多模型”或“能生成很多页面”。�
 - 修改可寻址：Picker 和 Pods 把视觉反馈转成 DOM selector 和局部上下文；
 - 质量可检查：anti-slop、checklist、critique 把审美要求变成工程化门禁。
 
-这也是它和普通 AI 生成网页工具的差异。Open Design 复刻的不是“生成一个好看的页面”这个表层结果，而是 Claude Design 更关键的 artifact-first creative flow：先问清楚，再选方向，再读 Skill 和 Design System，再计划执行，再预览，再标注修改，再检查质量。
+这也是它和普通 AI 网页生成工具的区别。Open Design 复刻的不是"生成一个好看页面"这种表面结果，而是 Claude Design 真正重要的 artifact-first creative flow：先问清楚，再选方向，再读 Skill 和 Design System，再计划执行，再预览，再标注修改，再检查质量。
 
 ## 最终定位
 
