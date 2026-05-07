@@ -8,338 +8,93 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 const posts = (await getCollection('blog'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 4);
+	.slice(0, 6);
 
 const works = (await getCollection('works'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 	.filter((work) => work.data.featured)
-	.slice(0, 4);
+	.slice(0, 6);
 ---
 
 <!doctype html>
 <html lang="zh-CN">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			.home {
-				width: min(var(--site-max), calc(100% - (var(--site-gutter) * 2)));
-				padding: 0.9rem 0 4.5rem;
-			}
-			.hero {
-				display: grid;
-				grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.9fr);
-				gap: 1.1rem;
-				align-items: stretch;
-				padding: 0.15rem 0 2.8rem;
-			}
-			.hero-copy,
-			.hero-aside,
-			.card {
-				position: relative;
-				overflow: hidden;
-			}
-			.hero-copy,
-			.hero-aside {
-				padding: clamp(1.35rem, 2vw, 1.85rem);
-			}
-			.hero-copy::after,
-			.hero-aside::after,
-			.card::after {
-				content: "";
-				position: absolute;
-				inset: 0;
-				pointer-events: none;
-				background: linear-gradient(135deg, rgba(255, 255, 255, 0.28), transparent 52%);
-			}
-			.hero h1 {
-				max-width: 11ch;
-				margin-bottom: 0.9rem;
-				font-size: clamp(2.75rem, 5.6vw, 4.75rem);
-				line-height: 1.02;
-				text-wrap: pretty;
-			}
-			.hero p {
-				max-width: 39rem;
-				margin: 0;
-				font-size: 1.06rem;
-				color: rgb(var(--gray));
-			}
-			.hero-lead {
-				font-size: 1.08rem;
-			}
-			.hero-intro {
-				display: grid;
-				gap: 1rem;
-			}
-			.hero-meta {
-				display: grid;
-				grid-template-columns: repeat(3, minmax(0, 1fr));
-				gap: 0.85rem;
-				margin-top: 1.35rem;
-				padding-top: 1.25rem;
-				border-top: 1px solid rgba(162, 74, 47, 0.12);
-			}
-			.hero-meta strong,
-			.hero-meta span {
-				display: block;
-			}
-			.hero-meta strong {
-				margin-bottom: 0.15rem;
-				font-size: 0.82rem;
-				letter-spacing: 0.1em;
-				text-transform: uppercase;
-				color: var(--accent-dark);
-			}
-			.hero-meta span {
-				font-size: 0.98rem;
-				line-height: 1.55;
-				color: rgb(var(--gray-dark));
-			}
-			.hero-aside {
-				display: flex;
-				flex-direction: column;
-				gap: 1rem;
-				justify-content: center;
-				background:
-					radial-gradient(circle at top right, rgba(214, 164, 141, 0.28), transparent 38%),
-					rgba(var(--surface), 0.82);
-			}
-			.hero-aside p {
-				margin: 0;
-				font-size: 1.02rem;
-				color: rgb(var(--gray-dark));
-			}
-			.hero-links {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.65rem;
-			}
-			.hero-links a {
-				display: inline-flex;
-				align-items: center;
-				justify-content: center;
-				min-width: 7.1rem;
-				min-height: 2.7rem;
-				padding: 0.68rem 0.95rem;
-				border-radius: 999px;
-				text-decoration: none;
-				font-size: 0.92rem;
-				font-weight: 700;
-				letter-spacing: 0.01em;
-				box-shadow: inset 0 0 0 1px transparent;
-			}
-			.hero-links .primary {
-				background: rgb(var(--black));
-				color: rgb(var(--surface));
-				box-shadow:
-					0 14px 28px rgba(24, 24, 27, 0.12),
-					inset 0 0 0 1px rgba(255, 255, 255, 0.04);
-			}
-			.hero-links .primary:hover {
-				transform: translateY(-1px);
-				box-shadow: 0 10px 24px rgba(24, 24, 27, 0.16);
-			}
-			.hero-links .secondary {
-				border: 1px solid rgba(162, 74, 47, 0.22);
-				background: rgba(255, 252, 247, 0.96);
-				color: var(--accent-dark);
-				box-shadow:
-					0 10px 24px rgba(80, 53, 28, 0.06),
-					inset 0 0 0 1px rgba(255, 255, 255, 0.55);
-			}
-			.hero-links .secondary:hover {
-				transform: translateY(-1px);
-				border-color: rgba(162, 74, 47, 0.34);
-				background: rgba(255, 255, 255, 1);
-			}
-			.section {
-				padding: 2.1rem 0 0;
-				margin-top: 0.6rem;
-			}
-			.section-head {
-				display: flex;
-				align-items: baseline;
-				justify-content: space-between;
-				gap: 1rem;
-				margin-bottom: 1.2rem;
-			}
-			.section-head h2,
-			.section-head p {
-				margin: 0;
-			}
-			.section-head p {
-				max-width: 32rem;
-				color: rgb(var(--gray));
-				font-size: 0.98rem;
-			}
-			.grid {
-				display: grid;
-				grid-template-columns: repeat(2, minmax(0, 1fr));
-				gap: 1.1rem;
-			}
-			.card {
-				display: flex;
-				flex-direction: column;
-				gap: 0.85rem;
-				padding: 1.35rem;
-				text-decoration: none;
-				color: inherit;
-				background:
-					linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 252, 247, 0.88)),
-					rgba(var(--surface), 0.86);
-			}
-			.card h3,
-			.card p {
-				margin: 0;
-			}
-			.card p {
-				color: rgb(var(--gray));
-			}
-			.card h3 {
-				padding-right: 1.9rem;
-				font-size: clamp(1.55rem, 2.2vw, 2.05rem);
-				line-height: 1.12;
-			}
-			.meta {
-				font-size: 0.95rem;
-				color: rgba(var(--gray-dark), 0.78);
-			}
-			.tags {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.5rem;
-			}
-			.tag {
-				padding: 0.2rem 0.6rem;
-				border-radius: 999px;
-				background: rgba(162, 74, 47, 0.08);
-				font-size: 0.82rem;
-				color: rgb(var(--gray-dark));
-			}
-
-			.card::before {
-				content: "↗";
-				position: absolute;
-				top: 1.2rem;
-				right: 1.25rem;
-				font-size: 1rem;
-				color: rgba(162, 74, 47, 0.58);
-				transition: transform var(--transition-soft), color var(--transition-soft);
-			}
-			.card:hover {
-				transform: translateY(-2px);
-				box-shadow: var(--box-shadow-strong);
-				border-color: rgba(162, 74, 47, 0.28);
-				background:
-					linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 252, 247, 0.96)),
-					rgba(var(--surface), 0.94);
-			}
-			.card:hover::before {
-				transform: translate(2px, -2px);
-				color: var(--accent-dark);
-			}
-			.card.featured-work {
-				background:
-					linear-gradient(180deg, rgba(252, 245, 237, 0.95), rgba(255, 252, 247, 0.82)),
-					rgba(var(--surface), 0.82);
-			}
-			@media (max-width: 900px) {
-				.hero {
-					grid-template-columns: 1fr;
-				}
-			}
-			@media (max-width: 820px) {
-				.grid {
-					grid-template-columns: 1fr;
-				}
-				.section-head {
-					flex-direction: column;
-				}
-			}
-			@media (max-width: 720px) {
-				.home {
-					padding-top: 0.45rem;
-				}
-				.hero {
-					padding-bottom: 2.2rem;
-				}
-				.hero h1 {
-					max-width: 9ch;
-					font-size: clamp(2.15rem, 9.4vw, 3.4rem);
-					line-height: 1.03;
-				}
-				.hero-intro {
-					gap: 0.9rem;
-				}
-				.hero-links {
-					flex-direction: column;
-				}
-				.hero-links a {
-					width: 100%;
-				}
-				.hero-meta {
-					grid-template-columns: 1fr;
-					gap: 0.95rem;
-				}
-				.hero-aside {
-					gap: 0.9rem;
-				}
-				.section {
-					padding-top: 2rem;
-				}
-			}
-		</style>
 	</head>
 	<body>
 		<Header />
 		<main class="home">
+			<h1>{SITE_TITLE}</h1>
+			<p class="site-desc">{SITE_DESCRIPTION}</p>
+
 			<section class="section">
-				<div class="section-head">
-					<h2>最新文章</h2>
-					<p>持续更新，优先写那些值得反复引用的内容。</p>
-				</div>
-				<div class="grid">
+				<h2>最新文章</h2>
+				<ul class="post-list">
 					{
 						posts.map((post) => (
-							<a class="card surface-panel" href={`/blog/${post.id}/`}>
-								<div class="meta">
-									<FormattedDate date={post.data.pubDate} />
-								</div>
-								<h3>{post.data.title}</h3>
-								<p>{post.data.description}</p>
-							</a>
+							<li>
+								<a class="post-item" href={`/blog/${post.id}/`}>
+									<span class="post-title">{post.data.title}</span>
+									<span class="post-date">
+										<FormattedDate date={post.data.pubDate} />
+									</span>
+								</a>
+							</li>
 						))
 					}
-				</div>
+				</ul>
 			</section>
 
 			<section class="section">
-				<div class="section-head">
-					<h2>精选作品</h2>
-					<p>不只讲思路，也展示结果、实现和交付能力。</p>
-				</div>
-				<div class="grid">
+				<h2>精选作品</h2>
+				<ul class="post-list">
 					{
 						works.map((work) => (
-							<a class="card featured-work surface-panel" href={`/works/${work.id}/`}>
-								<div class="meta">
-									<FormattedDate date={work.data.pubDate} />
-									{work.data.role && ` · ${work.data.role}`}
-								</div>
-								<h3>{work.data.title}</h3>
-								<p>{work.data.description}</p>
-								{work.data.tags.length > 0 && (
-									<div class="tags">
-										{work.data.tags.slice(0, 4).map((tag) => <span class="tag">{tag}</span>)}
-									</div>
-								)}
-							</a>
+							<li>
+								<a class="post-item" href={`/works/${work.id}/`}>
+									<span class="post-title">
+										{work.data.title}
+										{work.data.tags.length > 0 && (
+											<span class="post-tags-inline">
+												{work.data.tags.slice(0, 4).map((tag: string) => (
+													<span class="post-tag">{tag}</span>
+												))}
+											</span>
+										)}
+									</span>
+									<span class="post-date">
+										<FormattedDate date={work.data.pubDate} />
+										{work.data.role && (
+											<span class="post-meta-inline"> · {work.data.role}</span>
+										)}
+									</span>
+								</a>
+							</li>
 						))
 					}
-				</div>
+				</ul>
 			</section>
-
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	.home {
+		width: min(var(--site-max), calc(100% - (var(--site-gutter) * 2)));
+		padding: 2rem 0 4.5rem;
+	}
+	.site-desc {
+		margin: 0 0 2rem;
+		color: rgb(var(--gray));
+		font-size: 1.06rem;
+		max-width: 38rem;
+	}
+	.section {
+		margin-top: 2.5rem;
+	}
+	.section h2 {
+		margin-bottom: 0.5rem;
+		font-size: 1.35rem;
+	}
+</style>

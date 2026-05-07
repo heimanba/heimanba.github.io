@@ -15,152 +15,45 @@ const works = (await getCollection('works')).sort(
 <html lang="zh-CN">
 	<head>
 		<BaseHead title={`作品 | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: min(var(--site-max), calc(100% - (var(--site-gutter) * 2)));
-				padding: 2rem 0 4.5rem;
-			}
-			.hero {
-				display: grid;
-				grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
-				gap: 1rem;
-				align-items: stretch;
-				margin-bottom: 2rem;
-			}
-			.hero-copy,
-			.hero-note,
-			.card {
-				padding: clamp(1.3rem, 2vw, 1.55rem);
-			}
-			.hero-copy {
-				background:
-					radial-gradient(circle at top right, rgba(162, 74, 47, 0.12), transparent 36%),
-					rgba(var(--surface), 0.74);
-			}
-			.hero-copy p,
-			.hero-note p {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			.hero-note {
-				display: flex;
-				align-items: center;
-				background:
-					linear-gradient(180deg, rgba(252, 245, 237, 0.94), rgba(255, 252, 247, 0.8)),
-					rgba(var(--surface), 0.74);
-			}
-			.list {
-				display: grid;
-				grid-template-columns: repeat(2, minmax(0, 1fr));
-				gap: 1rem;
-				padding-top: 2rem;
-				border-top: 1px solid rgba(162, 74, 47, 0.12);
-			}
-			.card {
-				display: flex;
-				flex-direction: column;
-				gap: 0.8rem;
-				text-decoration: none;
-				color: inherit;
-				position: relative;
-				overflow: hidden;
-				background:
-					linear-gradient(180deg, rgba(255, 251, 245, 0.94), rgba(255, 252, 247, 0.82)),
-					rgba(var(--surface), 0.74);
-			}
-			.card h2,
-			.card p {
-				margin: 0;
-			}
-			.card h2 {
-				font-size: clamp(1.6rem, 2.2vw, 2.2rem);
-				padding-right: 1.8rem;
-			}
-			.card p {
-				color: rgb(var(--gray-dark));
-			}
-			.meta {
-				font-size: 0.94rem;
-				color: rgb(var(--gray));
-			}
-			.tags {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.5rem;
-				padding-top: 0.35rem;
-			}
-			.tag {
-				padding: 0.2rem 0.6rem;
-				border-radius: 999px;
-				background: rgba(162, 74, 47, 0.08);
-				font-size: 0.82rem;
-			}
-			.card:hover {
-				transform: translateY(-2px);
-				box-shadow: var(--box-shadow-strong);
-				border-color: var(--panel-border-strong);
-			}
-			.card::before {
-				content: "↗";
-				position: absolute;
-				top: 1.15rem;
-				right: 1.2rem;
-				font-size: 1rem;
-				color: rgba(162, 74, 47, 0.58);
-				transition: transform var(--transition-soft), color var(--transition-soft);
-			}
-			.card:hover::before {
-				transform: translate(2px, -2px);
-				color: var(--accent-dark);
-			}
-			@media (max-width: 900px) {
-				.hero,
-				.list {
-					grid-template-columns: 1fr;
-				}
-			}
-			@media (max-width: 720px) {
-				main {
-					padding-top: 1.2rem;
-				}
-			}
-		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<section class="hero">
-				<div class="hero-copy surface-panel">
-					<div class="eyebrow">Selected work</div>
-					<h1>作品</h1>
-					<p>这里收的是已经做出来的东西，不只是想法和草图。每个条目尽量讲清楚目标、我的角色、实现方式，以及最后交付成了什么。</p>
-				</div>
-				<div class="hero-note surface-panel">
-					<p>我更在意“它有没有真正落地”，而不是只留下一个好看的演示截图。</p>
-				</div>
-			</section>
-
-			<section class="list">
+			<h1>作品</h1>
+			<p class="page-desc">已经做出来的东西，不只讲思路，也展示结果、实现和交付能力。</p>
+			<ul class="post-list">
 				{
 					works.map((work) => (
-						<a class="card surface-panel" href={`/works/${work.id}/`}>
-							<div class="meta">
-								<FormattedDate date={work.data.pubDate} />
-								{work.data.role && ` · ${work.data.role}`}
-								{work.data.status && ` · ${work.data.status}`}
-							</div>
-							<h2>{work.data.title}</h2>
-							<p>{work.data.description}</p>
-							{work.data.tags.length > 0 && (
-								<div class="tags">
-									{work.data.tags.map((tag) => <span class="tag">{tag}</span>)}
-								</div>
-							)}
-						</a>
+						<li>
+							<a class="post-item" href={`/works/${work.id}/`}>
+								<span class="post-title">
+									{work.data.title}
+									{work.data.tags.length > 0 && (
+										<span class="post-tags-inline">
+											{work.data.tags.map((tag: string) => (
+												<span class="post-tag">{tag}</span>
+											))}
+										</span>
+									)}
+								</span>
+								<span class="post-date">
+									<FormattedDate date={work.data.pubDate} />
+									{work.data.role && <span class="post-meta-inline"> · {work.data.role}</span>}
+								</span>
+							</a>
+						</li>
 					))
 				}
-			</section>
+			</ul>
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	.page-desc {
+		margin: 0 0 1.5rem;
+		color: rgb(var(--gray));
+		font-size: 1rem;
+	}
+</style>
