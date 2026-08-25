@@ -34,17 +34,17 @@ const {
 				grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
 				gap: 1.4rem;
 				padding-bottom: 2.25rem;
-				border-bottom: 1px solid rgb(var(--gray-light));
+				border-bottom: 1px solid var(--border);
 			}
 			.hero h1,
 			.hero p {
 				margin: 0;
 			}
 			.hero h1 {
-				font-family: var(--font-serif);
+				font-family: var(--font-body);
 				font-size: clamp(2.2rem, 4.8vw, 4.25rem);
 				font-weight: 700;
-				letter-spacing: -0.015em;
+				letter-spacing: -0.028em;
 				line-height: 1.1;
 				text-wrap: pretty;
 			}
@@ -54,28 +54,25 @@ const {
 				gap: 1rem;
 				padding: clamp(1.2rem, 2vw, 1.55rem);
 				border: 1px solid var(--panel-border);
-				border-radius: 24px;
-				background:
-					radial-gradient(circle at top right, rgba(214, 164, 141, 0.18), transparent 40%),
-					rgba(var(--surface), 0.76);
+				border-radius: var(--radius-lg);
+				background: rgba(var(--surface), 0.85);
 				box-shadow: var(--box-shadow);
 			}
 			.lead p {
-				font-family: var(--font-serif);
-				color: rgb(var(--gray-dark));
+				color: var(--text-secondary);
 				line-height: 1.65;
 			}
 			.meta {
 				font-family: var(--font-ui);
-				color: rgb(var(--gray));
+				color: var(--text-tertiary);
 				font-size: 0.95rem;
 			}
 			.panel {
 				padding: 1.3rem;
 				border: 1px solid var(--panel-border);
-				border-radius: 20px;
-				background: rgba(var(--surface-soft), 0.76);
-				box-shadow: 0 14px 34px rgba(50, 35, 20, 0.05);
+				border-radius: var(--radius-lg);
+				background: var(--bg-subtle);
+				box-shadow: var(--box-shadow);
 				align-self: start;
 				position: sticky;
 				top: 6.2rem;
@@ -102,7 +99,7 @@ const {
 			.tag {
 				padding: 0.15rem 0.55rem;
 				border-radius: 999px;
-				background: rgba(var(--gray-light), 0.8);
+				background: var(--accent-subtle);
 				font-size: 0.82rem;
 			}
 			.cover {
@@ -111,7 +108,7 @@ const {
 			.cover img {
 				display: block;
 				width: 100%;
-				border-radius: 8px;
+				border-radius: var(--radius-md);
 				box-shadow: var(--box-shadow);
 			}
 			.prose {

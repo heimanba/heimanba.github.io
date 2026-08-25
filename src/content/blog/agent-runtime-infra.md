@@ -1,3 +1,9 @@
+---
+title: '手脑分离：Agent Runtime Infra 的架构取舍'
+description: '从 Anthropic Managed Agents 出发，讨论 Agent Runtime 中 Sandbox 角色的转变：从代码执行器到完整运行时，以及长生命周期、有状态、协作式隔离带来的架构取舍。'
+pubDate: 'May 03 2026'
+---
+
 # 手脑分离：Agent Runtime Infra 的架构取舍
 
 2026 年 4 月 Anthropic 发布了 Managed Agents，用于大规模构建和部署云托管代理。随后国内的百炼、火山，国外的 LangChain 等也陆续推出了各自的 Managed Agents 方案。Managed Agents 这套理念有成为 Agent API 标准的趋势。

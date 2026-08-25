@@ -21,22 +21,22 @@ import HeaderLink from './HeaderLink.astro';
 		position: sticky;
 		top: 0;
 		z-index: 10;
-		background: rgba(255, 252, 247, 0.88);
+		background: rgba(var(--surface), 0.85);
 		backdrop-filter: blur(14px);
-		border-bottom: 1px solid rgba(var(--gray), 0.14);
-		box-shadow: 0 8px 24px rgba(50, 35, 20, 0.04);
+		border-bottom: 1px solid var(--border);
 	}
 	.brand {
 		margin: 0;
-		font-family: var(--font-serif);
-		font-size: 1.32rem;
-		letter-spacing: -0.03em;
+		font-family: var(--font-body);
+		font-size: 1.15rem;
+		font-weight: 700;
+		letter-spacing: -0.02em;
 		line-height: 1;
 	}
 	.brand a,
 	.brand a.active {
 		text-decoration: none;
-		color: rgb(var(--black));
+		color: var(--text-primary);
 	}
 	nav {
 		display: flex;
@@ -60,7 +60,7 @@ import HeaderLink from './HeaderLink.astro';
 	}
 	nav a {
 		padding: 0.3rem 0;
-		color: rgb(var(--gray-dark));
+		color: var(--text-secondary);
 		font-family: var(--font-ui);
 		font-size: 0.96rem;
 		text-decoration: none;
@@ -68,11 +68,11 @@ import HeaderLink from './HeaderLink.astro';
 		transition: color 180ms ease, border-color 180ms ease;
 	}
 	nav a:hover {
-		color: rgb(var(--black));
-		border-color: rgba(var(--gray), 0.32);
+		color: var(--text-primary);
+		border-color: var(--border-strong);
 	}
 	nav a.active {
-		color: rgb(var(--black));
+		color: var(--text-primary);
 		border-color: var(--accent);
 	}
 	@media (max-width: 720px) {
