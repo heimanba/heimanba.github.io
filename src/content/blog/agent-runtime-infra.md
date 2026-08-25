@@ -1,7 +1,7 @@
 ---
 title: '手脑分离：Agent Runtime Infra 的架构取舍'
 description: '从 Anthropic Managed Agents 出发，讨论 Agent Runtime 中 Sandbox 角色的转变：从代码执行器到完整运行时，以及长生命周期、有状态、协作式隔离带来的架构取舍。'
-pubDate: 'May 03 2026'
+pubDate: 'Aug 03 2026'
 ---
 
 # 手脑分离：Agent Runtime Infra 的架构取舍
