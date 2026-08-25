@@ -1,3 +1,9 @@
+---
+title: 'OpenAgentPack + Qoder Forward Mode：一条配置把 Agent 接入IM'
+description: 'OpenAgentPack 负责把 Agent、身份、环境、IM 渠道声明为代码，Qoder Forward Mode 负责把这些声明分发到 IM 并执行会话。一条 agents apply 就能让研发值班、客服、知识库 Agent 进钉钉、飞书、企业微信。'
+pubDate: 'Aug 25 2026'
+---
+
 # OpenAgentPack + Qoder Forward Mode：一条配置把 Agent 接入IM
 
 > OpenAgentPack 负责把 Agent、身份、环境、IM 渠道声明为代码，Qoder Forward Mode 负责把这些声明分发到 IM 并执行会话。一条 `agents apply` 就能让研发值班、客服、知识库 Agent 进钉钉、飞书、企业微信。

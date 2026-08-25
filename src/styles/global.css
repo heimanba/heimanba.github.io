@@ -1,88 +1,109 @@
 /*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
+  Design tokens — modern neutral system.
+  Legacy Bear Blog base removed; token names kept stable for consumers.
  */
 
 :root {
-	--accent: #a24a2f;
-	--accent-dark: #7f3924;
-	--accent-soft: #d6a48d;
-	--black: 24, 24, 27;
-	--gray: 105, 107, 114;
-	--gray-light: 228, 225, 220;
-	--gray-dark: 55, 57, 62;
-	--surface: 255, 252, 247;
-	--surface-soft: 247, 242, 234;
-	--surface-strong: 240, 231, 220;
-	--gray-gradient: rgba(252, 248, 242, 0.88), rgba(255, 255, 255, 0.95);
+	color-scheme: light;
+
+	/* ── Color primitives ─────────────────────────────────────── */
+	/* RGB triplets, composed with rgba(var(--x), alpha). */
+	--black: 9, 9, 11; /* zinc-950 */
+	--gray-dark: 39, 39, 42; /* zinc-800 */
+	--gray: 113, 113, 122; /* zinc-500 */
+	--gray-light: 228, 228, 231; /* zinc-200 */
+	--surface: 255, 255, 255;
+	--surface-soft: 250, 250, 250; /* zinc-50 */
+	--surface-strong: 244, 244, 245; /* zinc-100 */
+
+	/* Accent — indigo */
+	--accent: #4f46e5; /* indigo-600 */
+	--accent-dark: #4338ca; /* indigo-700 */
+	--accent-soft: #a5b4fc; /* indigo-300 */
+	--accent-rgb: 79, 70, 229;
+
+	/* ── Semantic tokens ──────────────────────────────────────── */
+	--text-primary: rgb(var(--black));
+	--text-secondary: rgb(var(--gray-dark));
+	--text-tertiary: rgb(var(--gray));
+	--bg: rgb(var(--surface));
+	--bg-subtle: rgb(var(--surface-soft));
+	--border: rgba(var(--black), 0.08);
+	--border-strong: rgba(var(--black), 0.14);
+	--accent-subtle: rgba(var(--accent-rgb), 0.08);
+	/* ── Elevation — restrained, single-layer shadows ─────────── */
 	--box-shadow:
-		0 10px 30px rgba(50, 35, 20, 0.06), 0 24px 60px rgba(50, 35, 20, 0.08);
+		0 1px 2px rgba(9, 9, 11, 0.04), 0 4px 16px rgba(9, 9, 11, 0.06);
 	--box-shadow-strong:
-		0 18px 44px rgba(64, 42, 18, 0.08), 0 34px 90px rgba(64, 42, 18, 0.12);
-	--font-body: var(--font-atkinson), "Helvetica Neue", Helvetica, Arial, sans-serif;
-	--font-serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino,
-		"Songti SC", "Noto Serif SC", "Source Han Serif SC", serif;
-	--font-display: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino,
-		"Songti SC", "Noto Serif SC", "Source Han Serif SC", serif;
-	--font-ui: -apple-system, system-ui, sans-serif;
-	--font-mono: ui-monospace, "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+		0 2px 4px rgba(9, 9, 11, 0.05), 0 12px 32px rgba(9, 9, 11, 0.1);
+
+	/* ── Radii ────────────────────────────────────────────────── */
+	--radius-sm: 6px;
+	--radius-md: 10px;
+	--radius-lg: 16px;
+
+	/* ── Typography ───────────────────────────────────────────── */
+	--font-body:
+		var(--font-atkinson), -apple-system, BlinkMacSystemFont, "Segoe UI",
+		"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC",
+		sans-serif;
+	--font-ui:
+		-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC",
+		"Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+	--font-serif:
+		"Source Han Serif SC", "Noto Serif SC", "Songti SC", Georgia,
+		"Iowan Old Style", "Palatino Linotype", serif;
+	--font-display: var(--font-serif);
+	--font-mono:
+		ui-monospace, "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono",
+		Menlo, monospace;
+
+	--text-xs: 0.78rem;
+	--text-sm: 0.88rem;
+	--text-base: 1rem;
+	--text-lg: 1.125rem;
+
+	/* ── Layout ───────────────────────────────────────────────── */
 	--site-max: 1120px;
 	--site-gutter: clamp(1rem, 1.2vw + 0.7rem, 1.5rem);
-	--panel-border: rgba(162, 74, 47, 0.12);
-	--panel-border-strong: rgba(162, 74, 47, 0.22);
-	--panel-bg: rgba(255, 252, 247, 0.78);
-	--panel-bg-strong: rgba(255, 252, 247, 0.92);
-	--panel-highlight: linear-gradient(135deg, rgba(255, 255, 255, 0.34), transparent 54%);
-	--transition-soft: 180ms ease;
+
+	/* ── Panels ───────────────────────────────────────────────── */
+	--panel-border: var(--border);
+	--panel-border-strong: var(--border-strong);
+	--panel-bg: rgba(var(--surface), 0.85);
+	--panel-bg-strong: rgba(var(--surface), 0.95);
+	/* ── Motion ───────────────────────────────────────────────── */
+	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+	--transition-soft: 160ms var(--ease-out);
 }
+
 html {
 	scroll-behavior: smooth;
 }
+
 body {
 	position: relative;
-	font-family: var(--font-serif);
 	margin: 0;
 	padding: 0;
+	font-family: var(--font-body);
+	font-size: 17px;
+	line-height: 1.7;
+	letter-spacing: 0.005em;
 	text-align: left;
-	background:
-		radial-gradient(circle at top left, rgba(220, 190, 171, 0.34), transparent 28%),
-		radial-gradient(circle at top right, rgba(246, 227, 186, 0.22), transparent 24%),
-		linear-gradient(
-			180deg,
-			rgba(255, 250, 244, 1) 0%,
-			rgba(253, 249, 244, 0.98) 22%,
-			rgba(250, 245, 239, 0.94) 46%,
-			rgba(255, 254, 252, 1) 100%
-		);
+	color: var(--text-secondary);
+	background: var(--bg);
 	word-wrap: break-word;
 	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
-	font-size: 18px;
-	line-height: 1.65;
-	letter-spacing: 0.01em;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
 }
-body::before {
-	content: "";
-	position: fixed;
-	inset: 0;
-	pointer-events: none;
-	background:
-		linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25)),
-		repeating-linear-gradient(
-			90deg,
-			transparent 0,
-			transparent 23px,
-			rgba(162, 74, 47, 0.015) 24px
-		);
-	mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 88%);
-	opacity: 0.7;
-}
+
 main {
 	width: min(680px, calc(100% - (var(--site-gutter) * 2)));
 	margin: auto;
 	padding: clamp(2rem, 2.8vw, 3.5rem) 0 4.5rem;
 }
+
 h1,
 h2,
 h3,
@@ -90,38 +111,39 @@ h4,
 h5,
 h6 {
 	margin: 0 0 0.7rem 0;
-	font-family: var(--font-serif);
+	font-family: var(--font-body);
 	font-weight: 700;
-	letter-spacing: -0.02em;
-	color: rgb(var(--black));
-	line-height: 1.15;
+	letter-spacing: -0.022em;
+	line-height: 1.2;
+	color: var(--text-primary);
 	text-wrap: balance;
 }
 h1 {
-	font-size: clamp(2.25rem, 5vw, 3.25rem);
-	letter-spacing: -0.015em;
-	line-height: 1.1;
+	font-size: clamp(2rem, 4.5vw, 2.75rem);
+	letter-spacing: -0.028em;
+	line-height: 1.15;
 }
 h2 {
-	font-size: clamp(1.75rem, 3.5vw, 2.5rem);
-	letter-spacing: -0.01em;
 	margin: 2.5rem 0 0.75rem;
-	line-height: 1.2;
+	font-size: clamp(1.5rem, 3vw, 1.95rem);
+	letter-spacing: -0.02em;
 }
 h3 {
-	font-size: clamp(1.45rem, 2.4vw, 2rem);
+	font-size: clamp(1.25rem, 2.2vw, 1.55rem);
 }
 h4 {
-	font-size: 1.35rem;
+	font-size: 1.18rem;
 }
 h5 {
-	font-size: 1.1rem;
+	font-size: 1.05rem;
 }
+
 strong,
 b {
-	font-weight: 700;
-	color: rgb(var(--black));
+	font-weight: 600;
+	color: var(--text-primary);
 }
+
 a {
 	color: var(--accent);
 	text-decoration-thickness: 0.08em;
@@ -134,55 +156,52 @@ a:hover {
 	color: var(--accent-dark);
 }
 a:focus-visible {
-	outline: 2px solid rgba(162, 74, 47, 0.4);
+	outline: 2px solid rgba(var(--accent-rgb), 0.5);
 	outline-offset: 3px;
+	border-radius: 2px;
 }
+
 p {
 	margin: 0 0 1.15rem;
 }
+
 .eyebrow {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.55rem;
 	margin-bottom: 1.15rem;
-	color: var(--accent-dark);
 	font-family: var(--font-ui);
-	font-size: 0.78rem;
-	font-weight: 700;
-	letter-spacing: 0.16em;
+	font-size: var(--text-xs);
+	font-weight: 600;
+	letter-spacing: 0.14em;
 	text-transform: uppercase;
+	color: var(--accent);
 }
 .eyebrow::before {
 	content: "";
-	width: 2.7rem;
+	width: 2rem;
 	height: 1px;
-	background: rgba(162, 74, 47, 0.45);
+	background: rgba(var(--accent-rgb), 0.45);
 }
+
 .surface-panel {
 	border: 1px solid var(--panel-border);
-	border-radius: 24px;
+	border-radius: var(--radius-lg);
 	background: var(--panel-bg);
-	backdrop-filter: blur(14px);
+	backdrop-filter: blur(12px);
 	box-shadow: var(--box-shadow);
 	transition: transform var(--transition-soft), box-shadow var(--transition-soft),
 		border-color var(--transition-soft), background-color var(--transition-soft);
 }
+
 .section-rule {
-	border-top: 1px solid rgba(162, 74, 47, 0.12);
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+	border-top: 1px solid var(--border);
 }
+
 .prose p {
 	margin-bottom: 1.5rem;
 	max-width: 38rem;
 	text-wrap: pretty;
-}
-.prose > p:first-of-type::first-letter {
-	float: left;
-	font-size: 3.5rem;
-	line-height: 0.9;
-	padding: 6px 10px 0 0;
-	font-weight: 600;
-	color: var(--accent);
 }
 .prose h2,
 .prose h3 {
@@ -195,6 +214,7 @@ p {
 .prose li {
 	margin-bottom: 0.6rem;
 }
+
 textarea {
 	width: 100%;
 	font-size: 16px;
@@ -208,64 +228,64 @@ table {
 img {
 	max-width: 100%;
 	height: auto;
-	border-radius: 8px;
+	border-radius: var(--radius-md);
 }
+
 code {
-	padding: 0.15rem 0.38rem;
+	padding: 0.14rem 0.4rem;
 	font-family: var(--font-mono);
 	font-size: 0.85em;
-	background-color: rgba(var(--gray-light), 0.7);
-	border: 1px solid rgba(var(--gray), 0.15);
-	border-radius: 4px;
+	background-color: rgba(var(--surface-strong), 0.9);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-sm);
 }
 pre {
 	padding: 1rem 1.15rem;
-	background: rgb(var(--surface));
-	color: rgb(var(--gray-dark));
-	border: 1px solid rgb(var(--gray-light));
-	border-radius: 8px;
+	background: var(--bg-subtle);
+	color: var(--text-secondary);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-md);
 	overflow-x: auto;
 	font: 14px/1.55 var(--font-mono);
-	box-shadow: none;
 }
 pre > code {
 	all: unset;
 }
+
 blockquote {
-	margin: 2.5rem 0;
-	padding: 0 2rem;
-	border-left: 3px solid var(--accent);
-	color: rgb(var(--black));
-	font-family: var(--font-serif);
-	font-size: 1.35rem;
-	line-height: 1.45;
-	font-style: italic;
+	margin: 2.25rem 0;
+	padding: 0 0 0 1.5rem;
+	border-left: 2px solid var(--accent);
+	color: var(--text-primary);
+	font-size: 1.15rem;
+	line-height: 1.6;
 }
+
 hr {
 	border: none;
 	border-top: 1px solid rgb(var(--gray-light));
 	margin: 2.5rem 0;
 }
+
 ::selection {
-	background: rgba(162, 74, 47, 0.16);
+	background: rgba(var(--accent-rgb), 0.16);
 }
+
 @media (max-width: 720px) {
 	main {
 		width: min(100%, calc(100% - (var(--site-gutter) * 2)));
 		padding: 1.6rem 0 3rem;
 	}
 	h1 {
-		letter-spacing: -0.04em;
-	}
-	body {
-		line-height: 1.68;
+		letter-spacing: -0.032em;
 	}
 	.surface-panel {
-		border-radius: 22px;
+		border-radius: var(--radius-md);
 		background: var(--panel-bg-strong);
 	}
 }
 
+/* ── Post list ──────────────────────────────────────────────── */
 .post-list {
 	list-style: none;
 	padding: 0;
@@ -277,35 +297,36 @@ hr {
 	justify-content: space-between;
 	gap: 1rem;
 	padding: 0.9rem 0;
-	border-bottom: 1px solid rgba(var(--gray-light), 0.7);
+	border-bottom: 1px solid var(--border);
 	text-decoration: none;
 	color: inherit;
 	transition: color var(--transition-soft);
 }
 .post-item:first-child {
-	border-top: 1px solid rgba(var(--gray-light), 0.7);
+	border-top: 1px solid var(--border);
 }
 .post-item:hover .post-title {
 	color: var(--accent);
 }
 .post-title {
-	font-family: var(--font-serif);
-	font-size: 1.12rem;
+	font-family: var(--font-body);
+	font-size: 1.06rem;
 	font-weight: 600;
-	color: rgb(var(--black));
-	line-height: 1.35;
+	line-height: 1.4;
 	letter-spacing: -0.01em;
+	color: var(--text-primary);
 	transition: color var(--transition-soft);
 }
 .post-date {
 	flex-shrink: 0;
-	font-size: 0.88rem;
-	color: rgb(var(--gray));
+	font-family: var(--font-ui);
+	font-size: var(--text-sm);
+	color: var(--text-tertiary);
 	white-space: nowrap;
 }
 .post-meta-inline {
-	font-size: 0.88rem;
-	color: rgb(var(--gray));
+	font-size: var(--text-sm);
+	color: var(--text-tertiary);
 }
 .post-tags-inline {
 	display: inline-flex;
@@ -314,11 +335,12 @@ hr {
 	margin-top: 0.2rem;
 }
 .post-tag {
-	padding: 0.1rem 0.45rem;
+	padding: 0.1rem 0.5rem;
 	border-radius: 999px;
-	background: rgba(162, 74, 47, 0.07);
-	font-size: 0.78rem;
-	color: rgb(var(--gray-dark));
+	background: var(--accent-subtle);
+	font-family: var(--font-ui);
+	font-size: var(--text-xs);
+	color: var(--text-secondary);
 }
 @media (max-width: 600px) {
 	.post-item {
@@ -326,9 +348,10 @@ hr {
 		gap: 0.15rem;
 	}
 	.post-date {
-		font-size: 0.82rem;
+		font-size: var(--text-xs);
 	}
 }
+
 .sr-only {
 	border: 0;
 	padding: 0;
@@ -337,12 +360,8 @@ hr {
 	height: 1px;
 	width: 1px;
 	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
 	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
 	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
 	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
 }
