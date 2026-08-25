@@ -4,7 +4,7 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import { getCollection } from 'astro:content';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { SITE_AUTHOR, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 const posts = (await getCollection('blog'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -24,10 +24,12 @@ const works = (await getCollection('works'))
 	<body>
 		<Header />
 		<main class="home">
-			<h1>{SITE_TITLE}</h1>
-			<p class="site-desc">{SITE_DESCRIPTION}</p>
+			<section class="letter-intro">
+				<p class="letter-intro__salutation">我是 {SITE_AUTHOR}。</p>
+				<p class="letter-intro__lede">{SITE_DESCRIPTION}</p>
+			</section>
 
-			<section class="section">
+			<section class="section section--posts">
 				<h2>最新文章</h2>
 				<ul class="post-list">
 					{
@@ -45,7 +47,7 @@ const works = (await getCollection('works'))
 				</ul>
 			</section>
 
-			<section class="section">
+			<section class="section section--works">
 				<h2>精选作品</h2>
 				<ul class="post-list">
 					{
@@ -82,19 +84,50 @@ const works = (await getCollection('works'))
 <style>
 	.home {
 		width: min(var(--site-max), calc(100% - (var(--site-gutter) * 2)));
-		padding: 2rem 0 4.5rem;
+		margin: 0 auto;
+		padding: var(--space-xl) 0 var(--space-2xl);
 	}
-	.site-desc {
-		margin: 0 0 2rem;
-		color: var(--text-tertiary);
-		font-size: var(--text-lg);
+	.letter-intro {
 		max-width: 38rem;
+		padding-bottom: var(--space-2xl);
 	}
-	.section {
-		margin-top: 2.5rem;
+	.letter-intro__salutation {
+		margin: 0 0 var(--space-md);
+		font-family: var(--font-display);
+		font-size: var(--text-display-s);
+		font-weight: 700;
+		letter-spacing: 0.01em;
+		line-height: 1.25;
+		color: var(--text-primary);
+		text-wrap: balance;
+	}
+	.letter-intro__lede {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--text-xl);
+		line-height: 1.6;
+		color: var(--text-secondary);
+		text-wrap: pretty;
+	}
+	.section--posts {
+		margin-top: 0;
+	}
+	.section--works {
+		margin-top: var(--space-3xl);
 	}
 	.section h2 {
-		margin-bottom: 0.5rem;
-		font-size: 1.45rem;
+		margin-bottom: var(--space-sm);
+		font-size: var(--text-xl);
+	}
+	@media (max-width: 40rem) {
+		.letter-intro__salutation {
+			font-size: var(--text-2xl);
+		}
+		.letter-intro__lede {
+			font-size: var(--text-lg);
+		}
+		.section--works {
+			margin-top: var(--space-2xl);
+		}
 	}
 </style>

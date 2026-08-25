@@ -1,90 +1,19 @@
-/*
-  Design tokens — modern neutral system.
-  Legacy Bear Blog base removed; token names kept stable for consumers.
+/* Hallmark · genre: editorial · macrostructure: Letter · theme: Newsprint-adapted · enrichment: none · nav: N6 · footer: Ft6
+ * audience: 中文技术读者 · use: 读文章、看作品 · tone: editorial-quiet
+ * pre-emit critique: P5 H4 E5 S4 R5 V5 · contrast: pass (40–41) · honest: pass (46) · chrome: pass (47) · tokens: pass (48) · mobile: pass (34, 49–57)
  */
-
-:root {
-	color-scheme: light;
-
-	/* ── Color primitives ─────────────────────────────────────── */
-	/* RGB triplets, composed with rgba(var(--x), alpha). */
-	--black: 9, 9, 11; /* zinc-950 */
-	--gray-dark: 39, 39, 42; /* zinc-800 */
-	--gray: 113, 113, 122; /* zinc-500 */
-	--gray-light: 228, 228, 231; /* zinc-200 */
-	--surface: 255, 255, 255;
-	--surface-soft: 250, 250, 250; /* zinc-50 */
-	--surface-strong: 244, 244, 245; /* zinc-100 */
-
-	/* Accent — indigo */
-	--accent: #4f46e5; /* indigo-600 */
-	--accent-dark: #4338ca; /* indigo-700 */
-	--accent-soft: #a5b4fc; /* indigo-300 */
-	--accent-rgb: 79, 70, 229;
-
-	/* ── Semantic tokens ──────────────────────────────────────── */
-	--text-primary: rgb(var(--black));
-	--text-secondary: rgb(var(--gray-dark));
-	--text-tertiary: rgb(var(--gray));
-	--bg: rgb(var(--surface));
-	--bg-subtle: rgb(var(--surface-soft));
-	--border: rgba(var(--black), 0.08);
-	--border-strong: rgba(var(--black), 0.14);
-	--accent-subtle: rgba(var(--accent-rgb), 0.08);
-	/* ── Elevation — restrained, single-layer shadows ─────────── */
-	--box-shadow:
-		0 1px 2px rgba(9, 9, 11, 0.04), 0 4px 16px rgba(9, 9, 11, 0.06);
-	--box-shadow-strong:
-		0 2px 4px rgba(9, 9, 11, 0.05), 0 12px 32px rgba(9, 9, 11, 0.1);
-
-	/* ── Radii ────────────────────────────────────────────────── */
-	--radius-sm: 6px;
-	--radius-md: 10px;
-	--radius-lg: 16px;
-
-	/* ── Typography ───────────────────────────────────────────── */
-	--font-body:
-		var(--font-atkinson), -apple-system, BlinkMacSystemFont, "Segoe UI",
-		"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC",
-		sans-serif;
-	--font-ui:
-		-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC",
-		"Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-	--font-serif:
-		"Source Han Serif SC", "Noto Serif SC", "Songti SC", Georgia,
-		"Iowan Old Style", "Palatino Linotype", serif;
-	--font-display: var(--font-serif);
-	--font-mono:
-		ui-monospace, "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono",
-		Menlo, monospace;
-
-	--text-xs: 0.78rem;
-	--text-sm: 0.88rem;
-	--text-base: 1rem;
-	--text-lg: 1.125rem;
-
-	/* ── Layout ───────────────────────────────────────────────── */
-	--site-max: 1120px;
-	--site-gutter: clamp(1rem, 1.2vw + 0.7rem, 1.5rem);
-
-	/* ── Panels ───────────────────────────────────────────────── */
-	--panel-border: var(--border);
-	--panel-border-strong: var(--border-strong);
-	--panel-bg: rgba(var(--surface), 0.85);
-	--panel-bg-strong: rgba(var(--surface), 0.95);
-	/* ── Motion ───────────────────────────────────────────────── */
-	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-	--transition-soft: 160ms var(--ease-out);
-}
+@import "../../tokens.css";
 
 html {
 	scroll-behavior: smooth;
+	overflow-x: clip;
 }
 
 body {
 	position: relative;
 	margin: 0;
 	padding: 0;
+	overflow-x: clip;
 	font-family: var(--font-body);
 	font-size: 17px;
 	line-height: 1.7;
@@ -111,8 +40,10 @@ h4,
 h5,
 h6 {
 	margin: 0 0 0.7rem 0;
-	font-family: var(--font-body);
+	font-family: var(--font-display);
 	font-weight: 700;
+	overflow-wrap: anywhere;
+	min-width: 0;
 	letter-spacing: -0.022em;
 	line-height: 1.2;
 	color: var(--text-primary);
@@ -156,7 +87,7 @@ a:hover {
 	color: var(--accent-dark);
 }
 a:focus-visible {
-	outline: 2px solid rgba(var(--accent-rgb), 0.5);
+	outline: 2px solid var(--color-focus);
 	outline-offset: 3px;
 	border-radius: 2px;
 }
@@ -181,7 +112,8 @@ p {
 	content: "";
 	width: 2rem;
 	height: 1px;
-	background: rgba(var(--accent-rgb), 0.45);
+	background: var(--accent);
+	opacity: 0.45;
 }
 
 .surface-panel {
@@ -235,7 +167,7 @@ code {
 	padding: 0.14rem 0.4rem;
 	font-family: var(--font-mono);
 	font-size: 0.85em;
-	background-color: rgba(var(--surface-strong), 0.9);
+	background-color: var(--bg-subtle);
 	border: 1px solid var(--border);
 	border-radius: var(--radius-sm);
 }
@@ -263,12 +195,20 @@ blockquote {
 
 hr {
 	border: none;
-	border-top: 1px solid rgb(var(--gray-light));
-	margin: 2.5rem 0;
+	border-top: var(--rule-hair) solid var(--color-rule);
+	margin: var(--space-xl) 0;
 }
 
 ::selection {
-	background: rgba(var(--accent-rgb), 0.16);
+	background: var(--accent-subtle);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		animation-duration: 150ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 150ms !important;
+	}
 }
 
 @media (max-width: 720px) {
@@ -321,6 +261,7 @@ hr {
 	flex-shrink: 0;
 	font-family: var(--font-ui);
 	font-size: var(--text-sm);
+	font-variant-numeric: tabular-nums;
 	color: var(--text-tertiary);
 	white-space: nowrap;
 }

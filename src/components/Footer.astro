@@ -4,17 +4,37 @@ import { SITE_AUTHOR } from '../consts';
 const today = new Date();
 ---
 
-<footer>
-	&copy; {today.getFullYear()} {SITE_AUTHOR}. Powered by Astro and GitHub Pages.
+<footer class="foot-letter">
+	<p class="foot-letter__close">写到这里。<br /><span class="foot-letter__sign">— {SITE_AUTHOR}，{today.getFullYear()}</span></p>
+	<p class="foot-letter__ps">
+		P.S. — 订阅 <a href="/rss.xml">RSS</a>，或到 <a href="/about">关于页</a> 找到我。本站由 Astro 构建，托管于 GitHub Pages。
+	</p>
 </footer>
+
 <style>
-	footer {
-		padding: 2.5rem 1rem 5rem;
-		border-top: 1px solid var(--border);
-		background: transparent;
-		color: var(--text-tertiary);
-		text-align: center;
-		font-size: 0.95rem;
+	.foot-letter {
+		padding: var(--space-2xl) var(--page-gutter);
+		max-width: 60ch;
+		margin: 0 auto;
+	}
+	.foot-letter__close {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--text-lg);
+		line-height: 1.5;
+		color: var(--text-primary);
+	}
+	.foot-letter__sign {
+		font-weight: 600;
+	}
+	.foot-letter__ps {
+		margin: var(--space-lg) 0 0;
 		font-family: var(--font-ui);
+		font-size: var(--text-sm);
+		line-height: 1.7;
+		color: var(--text-tertiary);
+	}
+	.foot-letter__ps a {
+		white-space: nowrap;
 	}
 </style>

@@ -3,93 +3,84 @@ import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
-<header>
-	<nav aria-label="主导航">
-		<h2 class="brand"><a href="/">{SITE_TITLE}</a></h2>
-		<div class="internal-links">
-			<HeaderLink href="/">首页</HeaderLink>
-			<HeaderLink href="/blog">文章</HeaderLink>
-			<HeaderLink href="/works">作品</HeaderLink>
-			<HeaderLink href="/about">关于</HeaderLink>
-		</div>
+<header class="masthead">
+	<h1 class="masthead__name"><a href="/">{SITE_TITLE}</a></h1>
+	<nav class="masthead__nav" aria-label="主导航">
+		<ul>
+			<li><HeaderLink href="/">首页</HeaderLink></li>
+			<li><HeaderLink href="/blog">文章</HeaderLink></li>
+			<li><HeaderLink href="/works">作品</HeaderLink></li>
+			<li><HeaderLink href="/about">关于</HeaderLink></li>
+		</ul>
 	</nav>
+	<hr class="masthead__rule" aria-hidden="true" />
 </header>
+
 <style>
-	header {
-		margin: 0;
-		padding: 0 var(--site-gutter);
-		position: sticky;
-		top: 0;
-		z-index: 10;
-		background: rgba(var(--surface), 0.85);
-		backdrop-filter: blur(14px);
-		border-bottom: 1px solid var(--border);
+	.masthead {
+		display: grid;
+		justify-items: center;
+		gap: var(--space-2xs);
+		padding: var(--space-lg) var(--page-gutter) 0;
+		text-align: center;
 	}
-	.brand {
+	.masthead__name {
 		margin: 0;
-		font-family: var(--font-body);
-		font-size: 1.15rem;
+		font-family: var(--font-display);
+		font-size: var(--text-2xl);
 		font-weight: 700;
-		letter-spacing: -0.02em;
-		line-height: 1;
+		letter-spacing: 0.02em;
+		line-height: 1.1;
 	}
-	.brand a,
-	.brand a.active {
+	.masthead__name a {
+		color: var(--text-primary);
 		text-decoration: none;
+	}
+	.masthead__name a:hover {
 		color: var(--text-primary);
 	}
-	nav {
+	.masthead__nav ul {
 		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-		max-width: 1100px;
-		margin: 0 auto;
-		padding: 0.8rem 0;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: var(--space-xs) var(--space-lg);
+		list-style: none;
+		padding: 0;
+		margin: var(--space-xs) 0 0;
 	}
-	.internal-links {
-		display: flex;
-		align-items: center;
-		gap: 0.9rem;
-		overflow-x: auto;
-		scrollbar-width: none;
-		white-space: nowrap;
-	}
-	.internal-links::-webkit-scrollbar {
-		display: none;
-	}
-	nav a {
-		padding: 0.3rem 0;
-		color: var(--text-secondary);
+	.masthead__nav a {
+		display: inline-block;
+		padding: var(--space-2xs) 0;
 		font-family: var(--font-ui);
-		font-size: 0.96rem;
+		font-size: var(--text-sm);
+		color: var(--text-tertiary);
 		text-decoration: none;
-		border-bottom: 2px solid transparent;
-		transition: color 180ms ease, border-color 180ms ease;
+		border-bottom: 1px solid transparent;
+		white-space: nowrap;
+		transition: color var(--transition-soft), border-color var(--transition-soft);
 	}
-	nav a:hover {
+	.masthead__nav a:hover {
 		color: var(--text-primary);
-		border-color: var(--border-strong);
 	}
-	nav a.active {
+	.masthead__nav a.active {
 		color: var(--text-primary);
-		border-color: var(--accent);
+		border-bottom-color: var(--accent);
 	}
-	@media (max-width: 720px) {
-		nav {
-			flex-direction: column;
-			align-items: stretch;
-			gap: 0.55rem;
-			padding: 0.65rem 0;
+	.masthead__rule {
+		width: 100%;
+		max-width: var(--site-max);
+		margin: var(--space-md) 0 0;
+		border: 0;
+		border-top: var(--rule-hair) solid var(--color-ink);
+		border-bottom: var(--rule-hair) solid var(--color-rule);
+		height: 3px;
+	}
+	@media (max-width: 40rem) {
+		.masthead {
+			padding-top: var(--space-md);
 		}
-		.brand {
-			font-size: 1.22rem;
-		}
-		.internal-links {
-			padding-bottom: 0.05rem;
-		}
-		nav a {
-			padding: 0.28rem 0;
+		.masthead__name {
+			font-size: var(--text-xl);
 		}
 	}
 </style>
