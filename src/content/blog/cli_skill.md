@@ -1,3 +1,9 @@
+---
+title: 'CLI、MCP、Skill 与 Agent：能力边界和分层实践'
+description: 'CLI、MCP Tool 和 SDK 解决“系统能做什么”，Skill 解决“在什么情况下应该怎么做”，Agent 解决“面对当前目标，下一步做什么”。本文讨论它们如何分层协作，而不是相互替代。'
+pubDate: 'Aug 28 2026'
+---
+
 # CLI、MCP、Skill 与 Agent：能力边界和分层实践
 
 越来越多系统强调“一切能力 CLI 化”，因为 CLI 同时适合人类、脚本、CI 和 Agent 调用。但仅仅提供 CLI，并不意味着 Agent 就能可靠完成工作。
